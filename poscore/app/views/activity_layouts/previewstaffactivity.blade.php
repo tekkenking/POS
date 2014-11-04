@@ -1,0 +1,1 @@
+@include('activity_layouts.activities_feed_2columns') 

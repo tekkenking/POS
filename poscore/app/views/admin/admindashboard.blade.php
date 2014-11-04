@@ -1,0 +1,74 @@
+<div class="alert alert-block alert-info">
+	<i class="icon-flag-checkered bigger-130"></i>
+
+	Welcome to the ADMIN
+	<strong class="">
+	 Dashboard overview &amp; stats
+	</strong>
+	,
+You can get most of the information about your stock here.
+</div>
+
+<div class="space-6"></div>
+
+<div class="row-fluid">
+	<div class="span12">
+		<div class="span6">
+			@include('admin.admindashboard_salesummary')
+		</div><!-- SALES SUMMARY FINISHED HERE -->
+
+
+		<div class="span6">
+			@include('activity_layouts.activities_feed_1column')
+		</div>
+	</div>
+</div>
+
+<div class="hr hr32 hr-dotted"></div>
+
+<div class="row-fluid">
+	<div class="span12">
+		<div class="span6">
+			@include('admin.admindashboard_bestandlostcustomersummary')
+		</div>
+
+
+		<div class="span6">
+			
+		</div>
+	</div>
+</div>
+
+
+<script>
+
+$(document).ready(function(){
+	$('.ajaxable').ajaxLoadTabContent({
+		extraParamsCallback: "getProductModeParam(that)",
+		loader: '<span style="text-align:center"><i class="icon-spinner icon-spin"></i> Loading...</span>',
+		//loaderTargetPlace: '.loadertargetplace',
+		//loadInterval: 10000,
+		setExtraGet: "getExtraGet(that)",
+	});
+
+	//Adding active to the menu
+	$(this).find('#adminTopmenu > li').eq(0).addClass('active');
+
+});
+
+function getProductModeParam(that){
+	targetDiv = that.attr('data-mode');
+	that.closest('.widget-header').next('div').find('.tab-pane').attr('id', targetDiv);
+	return targetDiv;
+}
+
+function getExtraGet(that){
+	//_debug(that);
+	//var targetDiv = that.attr('href');
+	var param = targetDiv;
+	var method = targetDiv.split('_')[0];
+	//_debug(method);
+	return {mode:method, param:param};
+}
+
+</script>

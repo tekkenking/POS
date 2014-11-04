@@ -1,0 +1,139 @@
+@section('sidebar')
+
+@include('admin.usersplace_sidemenu')
+
+@stop
+
+
+
+{{Larasset::start('header')->only('daterangepicker')->show('styles')}}
+<div class="page-content" id="customerhistory">
+	<div class="page-header position-relative">
+		<h1>
+			{{ucwords($customerdetail->name)}}
+			<small>
+				<i class="icon-double-angle-right"></i>
+				Purchase history
+			</small>
+		</h1>
+	</div>
+
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="span6">
+				{{ Form::open(array('route'=>'adminsearchcustomerhistory', 'method' => 'get', 'id'=>'searchcustomerhistory', 'class'=>'') ) }}
+				{{Form::hidden('customer_id', $customerdetail->id)}}
+				<div class="control-group">
+					<div class="row-fluid input-prepend">
+						<span class="add-on">
+							<i class="icon-calendar"></i>
+						</span>
+						{{Form::text('historyrange', '', array('placeholder'=>'History results [ From - To ]', 'class'=>'span8', 'id'=>'historyrange'))}}
+						<button class="btn btn-warning" type="submit">Search history</button>
+					</div>
+				</div>
+				{{Form::close()}}
+			</div>
+			<div class="span6">
+				<span class="bolder alert alert-info">{{display_date_range($fromdate, $todate)}}</span>
+			</div>
+
+		</div>
+	</div>
+
+
+	{{--tt($customerhistory)--}}
+
+	<div class="row-fluid">
+		<div class="span12">
+			<table class="table table-bordered table-hover" id="history-table-1">
+				<thead>
+					<tr>
+						<th>Date</th>
+						<th>Receipt No.</th>
+						<th>Item</th>
+						<th>Unit Price</th>
+						<th>Qty.</th>
+						<th>Discount</th>
+						<th>Total</th>
+						<th>Item Mode</th>
+						<th>Staff Name</th>
+					</tr>
+				</thead>
+
+
+				<tbody class="customerhistorylist">
+					@include('admin.customerhistorytable')
+				</tbody>
+			</table>
+		</table>
+	</div>
+</div>
+
+{{Larasset::start('footer')->only('ace-element', 'moment', 'daterangepicker')->show('scripts')}}
+<script>
+$(document).ready(function(){
+	$('#historyrange').daterangepicker().prev().on(ace.click_event, function(){
+		$(this).next().focus();
+	});
+
+	//Modal call for print preview receipt
+	var printPreviewReceipt = function (e) {
+
+		var url = $(this).attr('data-url'), $that = $(this);
+
+		$that.off('click.printPreviewReceipt', printPreviewReceipt);
+
+		$.get(url, function(data) {
+
+			cloneModalbox( $('#myModal') )
+			//.css({'width':'auto'})
+			.centerModal()
+			.find('.modal-body').html(data)
+				.end()
+			.find('.modal-header h3')
+			.text('Preview receipt')
+			.css({'color':'white'}).removeClass('red lighter')
+				.end()
+			.find('.modal-footer > [data-ref="submit-form"]').text('Print receipt').addClass('print-previewx')
+				.end()
+			.modal();
+
+			$that.on('click.printPreviewReceipt', printPreviewReceipt);
+		});
+	}
+
+	$("[data-rel='popover']").on('click.printPreviewReceipt', printPreviewReceipt);
+
+	//$("form").iePlaceholder();
+
+	/*$('button[type="submit"]').on('click',function(e){
+		e.preventDefault();
+		$(this).ajaxrequest_wrapper({
+			//extraContent: {'submit' : $(this).val()},
+			functionCallback: '$("#form-login").iePlaceholder()',
+			myCallback: alteratetable,
+		});
+
+
+		function alteratetable(data){
+			var $this = $('#customerhistory'), TRD='';
+			$this.find('.datera').text(data.fromdate+ ' - ' + data.todate);
+
+			$.each(data.customerhistory, function(index, value){
+				//_debug(value.created_at);
+				TRD = '<tr>';
+				TRD += '<td><span class="label label-success label-large arrowed-right">'+"{{ng_datetime_format("+value.created_at+")}}"+'</span></td>';
+				TRD += '<td>'+value.product+'</td>';
+				TRD += '</tr>';
+			});
+
+			$this.find('.customerhistorylist').html(TRD);
+		}
+
+		//$('#form-login').iePlaceholder();
+
+	});*/
+
+});
+</script>

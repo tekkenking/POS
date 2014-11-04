@@ -1,0 +1,101 @@
+/************ONLINE KEYBOARD SETTINGS **************/
+@charset "UTF-8";
+
+.forcehide{
+	display:none !important;
+}
+
+#keyboard_switcher{
+	border: 1px solid #E6E6FA;
+    bottom: 40px;
+    height: 25px;
+    position: fixed;
+    right: 88px;
+	z-index:9999;
+}
+
+.keyboard_pos{
+    top:40px;
+    position: fixed;
+    z-index: 9999;
+}
+
+#tan_keyboard > div{
+    text-align: center;
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.9);
+    border: 1px solid #C5C5C5;
+    display: block;
+    padding: 10px;
+}
+
+#tan_keyboard button{
+    margin: 0 5px 5px 0;
+    width: 50px;
+    height: 50px;
+    line-height: 40px;
+    text-align: center;
+    border-width:2px !important;
+    border-color:#777;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    font:bold 14px arial, verdana;
+}
+
+.capslock, .tab, .left-shift{
+    clear:left;
+}
+
+#tan_keyboard .tab, #tan_keyboard .delete{
+    width:70px;
+}
+
+#tan_keyboard .capslock, #tan_keyboard .enter{
+    width: 87px;
+}
+
+#tan_keyboard .left-shift{
+    width: 121px;
+}
+
+#tan_keyboard .right-shift{
+    width: 109px;
+}
+
+#tan_keyboard .spacebar{
+    clear:left;
+    width: 662px;
+}
+
+.lasttime{
+    margin-right: 0;
+}
+
+#tan_keyboard .symbol .nd{
+    display: none;
+}
+
+.uppercase{
+    text-transform: uppercase;
+}
+
+.hidekeyboard{
+    display: none !important;
+}
+
+#keyboard-mini-menu{
+   padding: 1px 6px;
+    right: 90px;
+}
+
+#tan_pos{
+	background:#E6E6E6 !important;
+	border-radius:5px;
+	moz-border-radius:5px;
+	webkit-border-radius:5px
+}
+
+#tan_pos button{
+	height: 64px;
+    width: 100px;
+}

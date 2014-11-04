@@ -1,0 +1,130 @@
+Change Log
+
+Version 1.0.0 Stable
+
+-- No changes--
+
+Version 1.1.1 Stable
+
+* FEATURES
+	1. Lost & Best Customer added to the admin dashboard
+	2. Expenditure Added to Admin and Sales department
+	3. Changed the style of ADD or Remove quantity at stock
+	4. Stockupdate at the Admin Dashboard now display the Product, Brand and Category of the Product adjusted
+	5. Added the functionality of creating, editing and listing saved vendors
+	6. Added the an extra button that creates services category
+		_ At changed the entire view of service page
+	7. Added the feature of been able to create admin on first use of the software by the customer
+	8. Added background slider at login page
+
+* DB Changes
+	1. customer_logs: Changed data type of 
+		- ALLTIME_SPENT to Type:decimal, Lenght/Value:19,4
+	2. products: Changed data type of 
+		- COSTPRICE to Type:decimal || Lenght/Value:19,4 || Default:as defined=0
+		- retail_price to Type:decimal || Lenght/Value:19,4 || Default:as defined=0
+		- retail_discountedprice to Type:decimal || Lenght/Value:19,4 || Default:as defined=0
+		- retail_totalprice to Type:decimal || Lenght/Value:19,4 || Default:as defined=0
+		- wholesale_price to Type:decimal || Lenght/Value:19,4 || Default:as defined=0
+		- wholesale_discountedprice to Type:decimal || Lenght/Value:19,4 || Default:as defined=0
+		- wholesale_totalprice to Type:decimal || Lenght/Value:19,4 || Default:as defined=0
+		- distributor_price to Type:decimal || Lenght/Value:19,4 || Default:as defined=0
+		- distributor_discountedprice to Type:decimal || Lenght/Value:19,4 || Default:as defined=0
+		- distributor_totalprice to Type:decimal || Lenght/Value:19,4 || Default:as defined=0
+		- majordistributor_price to Type:decimal || Lenght/Value:19,4 || Default:as defined=0
+		- majordistributor_discountedprice to Type:decimal || Lenght/Value:19,4 || Default:as defined=0
+		- majordistributor_totalprice to Type:decimal || Lenght/Value:19,4 || Default:as defined=0
+	3. Add to User table:
+		- last_active:timestamp:default(0000-00-00 00:00:00)
+	4. New Table called VENDORS.. ( Through Laravel Migration )
+		- name:string, email:string, phone:string, address:string, comment:text, user_id:integer
+	5. Add to Productcategories:
+		- type:string || lenght:9 || Default:'product'
+
+08038848109
+07033205372
+
+* Patch / Bugfix
+	1. Changed at the Admin:
+		- Staff list tab bar.. Changed from Black color to harsh.
+		- Customer list tab bar.. Changed from Transparent to harsh color.
+		- Adjust the creation and update of BrandName, ProductCategory and Product to auto remove characters that are not 'text', 'space' or 'int'.
+		- Sales .. Defaults the product search to barcode
+		- Removes sales-manager role
+		- Can now set empty barcode at product stock to "empty"
+
+Version 1.2.2 Stable
+* FEATURES:
+	1. Added the ability to view store worth at the "List of stocks" page
+	2. At Inventory Records and Todays Sales: 
+		- Services is now calculated separately from total profit marigin.
+	3. Added the ability for ADMIN and STOCK MANAGER to be able to change unit price in cart
+	4. At the Admin. You can now view STOCK UPDATE RECORDS from any date range.
+	5. SALES RECORDS now display the name of the customer on at the table of records
+
+* Patch / Bugfix
+	1. Remove email required during new customers registration
+	2. Remove search by email when searching for existing customer
+	3. Out of stock alert is not in red color and bolder
+	4. Almost out of the box bolder
+	5. Services quantity is always 0. No more negative quantity in database
+	6. At the Cart page. Default search by, is now by name ( Formerly by BarCode )
+	7. Expenditures is now listed in Ascending order ( Formerly by Descending order )
+	8. Exclude Cost Price, Profit Margin, Total Cost Price and Total Profit Margin records at Sales_records template
+	9. Customers transactions history is now listed in Ascending order
+	10. At Admin products page. An issue with changing product quantity at other modes, apart from retail updates wrong price in other modes.
+		Example: You have two modes:[ Retail and Wholesales ]. And you set quantity at WHOLESALE. The price and the total wont get updated at RETAIL
+	11. At admin product page. Correct the issue of also calculating negative value of profit margin at the overal profit margin 
+	12. At admin product page. Changed an profit margin negative value to red.
+	13. Fixed the incorrect path to almost out of stock alert sound
+
+Version 1.2.3 Stable
+* FEATURES:
+
+* Patch / Bugfix
+	1. Immediate patch. To correct the error of the correct overall profit at "Today's sales"
+	2. At Admin product stock, 
+		- Discounted price not reseting back to 0.00 when discount is back to 0. Issue corrected
+		- Profit margin on negative not changing to red or green in realtime. Issue corrected
+	3. Upgraded Laravel.
+
+	FILES:
+		POSCORE/APPS/:
+			CONFIG/:
+				-SOFTWARE.PHP
+			CONTROLLERS/:
+				SALES/:
+					-TODAYSALECONTROLLER.php
+				STOCK/:
+					-STOCKPRODUCTCONTROLLER.PHP
+			VIEWS/:
+				ADMIN/:
+					RECORDS/:
+						-RECORDS_SALES.BLADE.PHP
+					LISTSTOCK/:
+						-SHOWPRODUCT.BLADE.PHP
+
+		POS/VENDOR/:
+			BUCKETCODES/JS/:
+					COMMON.JS
+
+
+*DB-CHANGES
+	Users:
+		Added a new column called 'remember_token[varchar:100|Null]'
+
+Version 1.2.4
+
+*FEATURES
+	
+
+*BUG / PATCH FIX
+
+	1. Prevent "#" from the url when you Edit price on fly and click remove icon
+
+Version 1.3.4
+
+* FEATURES
+	-At sales record: Total amount paid is now visible with a blue background
+
+

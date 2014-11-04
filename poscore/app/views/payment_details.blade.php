@@ -1,0 +1,40 @@
+<div id="payment_details">
+	<div class="widget-box invoice-box">
+		<div class="widget-header widget-header-small header-color-blue2">
+			<span class="bolder"> PAYMENT DETAILS: </span>
+		</div>
+		<table class="review_addpayment table table-bordered">
+			<thead>
+				<tr>
+					<th>Method</th>
+					<th>Amount</th>
+					<th>Reference</th>
+				</tr>
+			</thead>
+
+			<tbody style="overflow: auto; max-height: 185px;">
+			</tbody>
+		</table>
+
+		<h5 class="change bolder pull-left">
+			<span class="bolder">Change: </span>
+			<span class="green">{{currency()}}<span id="change">0:00</span>k</span>
+		</h5>
+
+		<!--<h5 class="bolder pull-left">
+			<span class="bolder">Total paid: </span>
+			<span>N</span><span class="totalpaid" id="totalpaid">0:00</span>
+		</h5>-->
+		<div class="clearfix"></div>
+		<h5 class="totaltendered bolder pull-left">
+			<span class="bolder">Total tendered: </span>
+			<span>{{currency()}}<span id="totaltendered">0:00</span>k</span>
+		</h5>
+		
+		<h5 class="balanceremaining bolder pull-right">
+			<span class="bolder">Balance: </span>
+			<span>{{currency()}}<span id="balanceremaining" >0:00</span>k</span>
+		</h5>
+		
+	</div>
+</div>

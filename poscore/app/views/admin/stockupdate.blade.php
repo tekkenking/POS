@@ -1,0 +1,1 @@
+@include('admin.admindashboard_stockupdate')

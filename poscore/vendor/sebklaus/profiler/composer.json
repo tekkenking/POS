@@ -1,0 +1,25 @@
+{
+    "name": "sebklaus/profiler",
+    "description": "A profiler for Laravel 4. A continuation of the retired juy/profiler.",
+    "keywords": ["laravel","profiler", "debug bar", "anbu", "juy"],
+    "homepage": "http://github.com/sebklaus/profiler",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sebastian Klaus",
+            "email": "sebastian@klaus.com.au",
+            "homepage": "http://sebastian.klaus.com.au",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "~4"
+    },
+    "autoload": {
+        "psr-0": {
+            "Sebklaus\\Profiler": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
