@@ -1,0 +1,127 @@
+
+<div class="row-fluid">
+	<table id="liststaffs" class="table table-striped table-bordered table-hover">
+		<thead>
+			<tr>
+				<th class="center">
+					<label>
+						<input type="checkbox" id="default_checkbox"/>
+						<span class="lbl"></span>
+					</label>
+				</th>
+				<th>Name</th>
+				<th>Username</th>
+				<th>Phone</th>
+				<th>Status</th>
+				<th>Online</th>
+			</tr>
+		</thead>
+
+		<tbody>
+		
+ <?php if( isset($staffs) && $staffs != null): ?>
+	<?php foreach($staffs as $staff): ?>
+			<tr id="staff-<?php echo $staff['id']; ?>" class="deletethis">
+				<td class="center">
+					<label>
+						<input type="checkbox" name="checkbox" value="<?php echo $staff['id']; ?>"/>
+						<span class="lbl"></span>
+					</label>
+				</td>
+
+				<td class="staffname">
+					<?php echo e(ucwords($staff['name'])); ?>
+
+					<a href="#myModal" data-rel="tooltip" data-original-title="Default" ref-type="view" modal-url-staff=<?php echo URL::route('adminpreviewstaffprofile', array($staff['id'])); ?> title="Click to view and edit <?php echo e($staff['name']); ?>'s profile">
+						<i class="icon-external-link-sign blue icon-2x pull-right"></i>
+					</a>
+				</td>
+
+				<td class="staffusername">
+					<?php echo e(ucwords($staff['username'])); ?>
+
+				</td>
+
+				<td class="stafftoken">
+					<?php echo e(ucwords($staff['phone'])); ?>
+
+				</td>
+
+				<td class="staffstatus">
+					<?php if( $staff['isenabled'] === 1 ): ?>
+						Enabled
+					<?php else: ?>
+						Disabled
+					<?php endif; ?>
+				</td>
+
+				<td class="staffonline">
+					<span class="label label-large label-purple arrowed-right">
+						<?php if( $staff['isloggedin'] === 1 ): ?>
+							<i class="icon-circle light-green" title="online"></i>
+						<?php else: ?>
+							<i class="icon-circle light-red" title="offline"></i>
+						<?php endif; ?>
+							&nbsp;
+						<?php if( $staff['loggedtime'] === '' ): ?>
+							<span>Never logged in</span>
+						<?php else: ?>
+							<span><?php echo e(format_date($staff['loggedtime'])); ?></span>
+						<?php endif; ?>
+					</span>
+				</td>
+				
+			</tr>
+<?php endforeach; ?>	
+<?php endif; ?>
+		</tbody>
+	</table>
+</div>
+							
+
+<!--inline scripts related to this page-->
+<script type="text/javascript">
+	$(function() {
+
+		var oTable1 = $('#liststaffs').dataTable( {
+		"aoColumns": [
+						{ "bSortable": false }, null, null, null, null, null
+					] 
+				} );
+		
+		$('table th input:checkbox').on('click' , function(){
+			var that = this;
+			$(this).closest('table').find('tr > td:first-child input:checkbox')
+			.each(function(){
+				this.checked = that.checked;
+				$(this).closest('tr').toggleClass('selected');
+			});
+		});
+
+		//Modal call for Adjust lost products
+		$("a[modal-url-staff]").on('click',function(e){
+			//_debug(e);
+			//return false;
+			var url;
+
+			url = $(this).attr('modal-url-staff');
+
+			$.get(url, function(data) {
+
+				$('#myModal').modal()
+				.css({'width':'1000px'})
+				.centerModal()
+				.find('.modal-body').html(data);
+
+				$('#myModal > .modal-header h3')
+				.text('Staff Preview and Edit')
+				.css({'color':'white'}).removeClass('red lighter');
+
+				$('#myModal > .modal-footer > [data-ref="submit-form"]')
+				.hide();
+
+			});
+		});
+			
+	})
+</script>

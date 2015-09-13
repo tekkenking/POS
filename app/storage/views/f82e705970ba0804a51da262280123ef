@@ -1,0 +1,115 @@
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+
+      <button data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar" type="button">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+      <a href="<?php echo URL::route('home'); ?>" class="brand pull-right" style="padding:0; margin-left:10px">
+        <?php echo HTML::image('vendor/bucketcodes/img/logo1_small_black.jpg', 'Glamour56_logo', array('width'=>'43')); ?>
+
+      </a>
+
+      <!--<div class="pull-right" style="margin-right:30px; margin-top:5px"></div>-->
+
+      <div class="nav-collapse collapse">
+
+          <ul id="adminTopmenu" class="nav">
+
+            <?php $menuq = array('dashboard', 'stock manager'); ?>
+            <?php foreach($menuq as $mq): ?>
+              <?php unset($menuSet); $menuSet = MenuClass::getMenuArray($mq); ?>  
+              <?php if( User::permitted( $menuSet['role'] ) ): ?>
+                  <li>
+                    <a href="<?php echo URL::route($menuSet['urlname']); ?>">
+                      <?php echo $menuSet['name']; ?>
+
+                    </a>
+                  </li>
+              <?php endif; ?>
+            <?php endforeach; ?>
+
+              <?php if( User::permitted( 'role.admin') ): ?>
+                <li class="dropdown">
+                  <a data-toggle="dropdown" class="dropdown-toggle" href="#">More... <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+
+                    <?php $menux = array('staff/customer', 'history records', 'bank records', 'expenditures', 'vendors', 'stock update record'); ?>
+
+                    <?php foreach($menux as $mx): ?>
+                    <?php unset($menuSet); $menuSet = MenuClass::getMenuArray($mx); ?>
+                      <li>
+                        <a href="<?php echo URL::route($menuSet['urlname']); ?>">
+                          <?php echo $menuSet['name']; ?>
+
+                        </a>
+                      </li>
+                    <?php endforeach; ?>
+
+                  </ul>
+                </li>
+              <?php endif; ?>
+
+            </ul>
+
+
+            <ul class="nav ace-nav pull-right">
+             <?php echo $__env->make('alerts', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+              <li class="light-blue">
+                <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                  <?php echo HTML::image('uploads/img/profile.png','', array('class'=>'nav-user-photo', 'width'=>'50px')); ?>
+
+                  <span class="user-info" style="color:white">
+                    <small>Welcome,</small>
+                    <?php echo ucwords(Auth::user()->username); ?> 
+                  </span>
+
+                  <i class="icon-caret-down"></i>
+                </a>
+
+                <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
+                 
+              <?php unset($menuSet); $menuSet = MenuClass::getMenuArray('cart'); ?>
+              <?php if( User::permitted( $menuSet['role'] ) ): ?>
+                  <li>
+                    <a href="<?php echo URL::route($menuSet['urlname']); ?>">
+                     <i class="icon-shopping-cart"></i>
+                      <?php echo $menuSet['name']; ?>
+
+                    </a>
+                  </li>
+              <?php endif; ?>
+
+              <?php unset($menuSet); $menuSet = MenuClass::getMenuArray('systemsettings'); ?>
+              <?php if( User::permitted( $menuSet['role'] ) ): ?>
+                  <li>
+                    <a href="<?php echo URL::route($menuSet['urlname']); ?>">
+                     <i class="icon-cogs"></i>
+                      <?php echo $menuSet['name']; ?>
+
+                    </a>
+                  </li>
+
+                  <li class="divider"></li>
+              <?php endif; ?>
+                  <li>
+                   <a href="<?php echo URL::route('logout'); ?>" class="">
+                          <i class="icon-off"></i> Logout
+                        </a>
+                  </li>
+                </ul>
+              </li><!-- STAFFS DROP DOWN ENDS HERE -->
+            </ul>
+
+
+         <?php /*<?php echo $__env->make('searchbar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>*/ ?>
+
+      </div><!--/.nav-collapse -->
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,131 @@
+	<div class="widget-box transparent">
+
+		<div class="profile-user-info profile-user-info-striped">
+			<div class="profile-info-row">
+				<div class="profile-info-name"> Full name </div>
+
+				<div class="profile-info-value">
+					<i class="icon-user <?php if( $staff['isloggedin'] === 1 ): ?>green <?php else: ?> red <?php endif; ?> "></i>
+					<span id="name" data-pk="<?php echo $staff['id']; ?>" class="editable editable-click"> <?php echo e(ucwords($staff['name'])); ?> </span>
+				</div>
+			</div>
+
+			<div class="profile-info-row">
+				<div class="profile-info-name"> Username </div>
+
+				<div class="profile-info-value">
+					<i class="icon-user light-orange bigger-110"></i>
+					<span id="username" class=""> <?php echo e($staff['username']); ?> </span>
+				</div>
+			</div>
+
+			<div class="profile-info-row">
+				<div class="profile-info-name"> Password </div>
+
+				<div class="profile-info-value">
+					<i class="icon-key light-orange bigger-110"></i>
+					<span id="password" data-pk="<?php echo $staff['id']; ?>" class="editable editable-click"> ****** </span>
+				</div>
+			</div>
+
+			<div class="profile-info-row">
+				<div class="profile-info-name"> Birthday </div>
+
+				<div class="profile-info-value">
+					<i class="icon-gift light-orange bigger-110"></i>
+					<span id="birthday" data-pk="<?php echo $staff['id']; ?>"  class="editable editable-click"><?php echo e(dob_date_format($staff['birthday'])); ?> </span>
+				</div>
+			</div>
+
+			<div class="profile-info-row">
+				<div class="profile-info-name"> Token-ID </div>
+
+				<div class="profile-info-value">
+					<i class="icon-filter light-orange bigger-110"></i>
+					<span id="usertoken" class=""> <?php echo e($staff['usertoken']); ?> </span>
+				</div>
+			</div>
+
+			<div class="profile-info-row">
+				<div class="profile-info-name"> Location </div>
+
+				<div class="profile-info-value">
+					<i class="icon-map-marker light-orange bigger-110"></i>
+					<span id="houseaddress" data-pk="<?php echo $staff['id']; ?>" class="editable editable-click"><?php echo e($staff['houseaddress']); ?></span>
+				</div>
+			</div>
+
+			<div class="profile-info-row">
+				<div class="profile-info-name"> Phone number </div>
+
+				<div class="profile-info-value">
+					<i class="icon-phone light-orange bigger-110"></i>
+					<span id="phone" data-pk="<?php echo $staff['id']; ?>" class="editable editable-click"> <?php echo e($staff['phone']); ?></span>
+				</div>
+			</div>
+
+			<div class="profile-info-row">
+				<div class="profile-info-name"> Email </div>
+
+				<div class="profile-info-value">
+					<i class="icon-phone light-orange bigger-110"></i>
+					<span id="email" data-pk="<?php echo $staff['id']; ?>" class="editable editable-click"> <?php echo e($staff['email']); ?></span>
+				</div>
+			</div>
+
+			<div class="profile-info-row">
+				<div class="profile-info-name"> Role </div>
+
+				<div class="profile-info-value">
+					<i class="icon-star light-orange bigger-110"></i>
+					<span id="role" data-pk="<?php echo $staff['id']; ?>" class="editable editable-click"><?php echo e(implode(', ',User::getUserRoleName($staff['id']))); ?></span>
+				</div>
+			</div>
+
+			<div class="profile-info-row">
+				<div class="profile-info-name"> Profile created </div>
+
+				<div class="profile-info-value">
+					<i class="icon-calendar light-orange bigger-110"></i>
+					<span id="signup" class=""> <?php echo e(format_date($staff['created_at'])); ?> </span>
+				</div>
+			</div>
+
+			<?php if($staff['isloggedin'] === 0): ?>
+			<div class="profile-info-row">
+				<div class="profile-info-name"> Last Online </div>
+
+				<div class="profile-info-value">
+				<i class="icon-calendar light-orange bigger-110"></i>
+					<span id="login" class=""><?php if($staff['loggedtime'] === ''): ?> Never logged in <?php else: ?> <?php echo e(format_date($staff['loggedtime'])); ?> <?php endif; ?></span>
+				</div>
+			</div>
+			<?php endif; ?>
+
+			<div class="profile-info-row">
+				<div class="profile-info-name"> Staff status </div>
+
+				<div class="profile-info-value">
+					<?php if( $staff['isenabled'] !== 1 ): ?>
+						<i class="icon-thumbs-down light-orange bigger-110"></i>
+						<span id="isenabled" data-pk="<?php echo $staff['id']; ?>" class="editable editable-click">Disabled</span>
+					<?php else: ?>
+						<i class="icon-thumbs-up light-orange bigger-110"></i>
+						<span id="isenabled" data-pk="<?php echo $staff['id']; ?>" class="editable editable-click">Enabled</span>
+					<?php endif; ?>
+				</div>
+			</div>
+
+			<!--<div class="profile-info-row">
+				<div class="profile-info-name"> About Me </div>
+
+				<div class="profile-info-value">
+					<span id="about" class="editable editable-click">Editable as WYSIWYG</span>
+				</div>
+			</div>-->
+		</div>
+	</div> <!-- PERSONAL DETAILS ENDS HERE -->
+
+<!--	<div class="space-20"></div>
+
+-->

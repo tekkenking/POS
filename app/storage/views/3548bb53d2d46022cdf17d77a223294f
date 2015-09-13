@@ -1,0 +1,11 @@
+<li class="grey" id="birthdayAlert">
+  <?php echo $__env->make('birthdayalert', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+</li>
+
+<li class="grey" id="messageAlert">
+<?php /*<?php echo $__env->make('messagealert', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>*/ ?>
+</li> <!-- MESSAGE ALERTS STARTS HERE -->
+
+<li class="grey" id="productAlert"> <!-- PRODUCTS ALERTS STARTS HERE -->
+<?php echo $__env->make('almostoutofstockalert', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+</li>

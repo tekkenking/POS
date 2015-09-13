@@ -1,0 +1,54 @@
+
+      <li class="nav-header">
+        <i class="icon-gift"></i>
+        <?php if($count == 0): ?> 0 Birthday alert <?php elseif($count == 1): ?> 1 Birthday alert <?php else: ?> <?php echo $count; ?> Birthday alerts <?php endif; ?>
+      </li>
+
+<?php if( $count > 0 ): ?>
+<?php $displayCounter = 0; $totalToDisplay = 5; $totalRemaining = 0; ?>
+    <?php foreach($customer_dob as $dob): ?>
+        <?php if( $dob['birthday'] == sqldate('today') ): ?>
+          <?php $when = 'Is today'; $label='label-purple label-large'; ?>
+        <?php else: ?>
+          <?php $when = 'In '. date_remaining($dob['birthday'], 'day'); $label='label-light label-large'; ?>
+        <?php endif; ?>
+      <li>
+        <a href="#">
+          <div class="clearfix">
+            <span class="pull-left">
+                <strong><?php echo ucwords($dob['name']); ?></strong>
+                <br>
+                <br><?php echo $dob['phone']; ?>
+
+                <br><span class="bolder red"><?php echo currency(); ?><?php echo format_money($dob['customerlog']['alltime_spent']); ?>k</span>
+            </span>
+            <span class="pull-right">
+              <span class="label <?php echo $label; ?> pull-right">
+               <?php /*tt($dob['birthday'], true)*/ ?>
+                <?php echo dob_date_format($dob['birthday']); ?>
+
+              </span>
+              <br>
+              <br><span class="pull-right"><?php echo $when; ?></span>
+              <?php if( $dob['customerlog']['updated_at'] !== NULL ): ?>
+              <?php $lastvisited = ng_date_format($dob['customerlog']['updated_at']); ?>
+              <?php else: ?>
+                <?php $lastvisited = 'Never purchased'; ?>
+              <?php endif; ?>
+              <br><span class="blue bolder"><?php echo $lastvisited; ?></span>
+            </span>
+          </div>
+        </a>
+      </li>
+        <?php ++$displayCounter; if( $displayCounter === $totalToDisplay ){ $totalRemaining = $count - $displayCounter; break; } ?>
+    <?php endforeach; ?>
+        <li>
+          <?php if( $totalRemaining > 0 ): ?>
+          <a href="#" modal-data="view_all_dob">
+            <span class="bolder">
+             <?php echo $totalRemaining; ?> more. Click to see all <i class="icon-arrow-right"></i>
+            </span>
+          </a>
+          <?php endif; ?>
+        </li>
+<?php endif; ?>

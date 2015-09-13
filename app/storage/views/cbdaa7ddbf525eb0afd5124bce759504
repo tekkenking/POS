@@ -1,0 +1,155 @@
+<?php if( $activity_type == 'loggedin' || $activity_type == 'loggedout'): ?>
+
+		<?php $data = json_decode($message_body) ?>
+
+		<?php $color = ($activity_type == 'loggedin') ? 'green' : 'red'; ?>
+		<div class="name" db-id=<?php echo $id; ?>>
+			<span class="purple"><?php echo ucwords($data->username); ?></span>:
+		</div>
+		<div class="time">
+			<i class="icon-time bigger-110"></i>
+				<?php echo e(format_date($activity->created_at)); ?>
+
+		</div>
+		<div class="text">
+			<i class="icon-quote-left"></i>
+				<span class="<?php echo $color; ?>"><?php echo istr::title($activity_type); ?>.</span>
+		</div>
+		
+<?php elseif( $activity_type == 'sale' ): ?>
+		
+		<?php $data = json_decode($message_body); ?>
+
+		<div class="name" db-id=<?php echo $id; ?>>
+			<span class="purple bolder"><?php echo ucwords($data->username); ?></span>:
+		</div>
+		<div class="time">
+			<i class="icon-time bigger-110"></i>
+			<?php echo e(format_date($activity->created_at)); ?>
+
+		</div>
+		<div class="text">
+			<i class="icon-quote-left"></i>
+			Made sale worth <span class="red"><?php echo currency(); ?><?php echo format_money($data->totalprice); ?>k</span> to 
+			<span class="muted">
+				<em>
+				<?php if($data->customername != null): ?>
+					<?php echo ucwords($data->customername); ?>.
+				<?php else: ?>
+					Unregistered.
+				<?php endif; ?> 
+				</em>
+			</span>
+				Take a look at the <a href="#myModal" data-rel="popover" class="underline the_receipt" data-url=<?php echo URL::route('popoverReceiptPreview', array($data->receipt_number)); ?>>receipt</a>
+		</div>
+
+<?php elseif($activity_type == 'stock' ): ?>
+
+<?php $data = json_decode($message_body); ?>
+
+	<div class="name bolder" db-id=<?php echo $activity['id']; ?>>
+			<?php echo ucwords($data->username); ?>
+
+	</div>
+
+	<div class="time">
+		<i class="icon-time bigger-110"></i>
+		<span class=""><?php echo e(format_date($activity->created_at)); ?></span>
+	</div>
+	<div class="text">
+			<i class="icon-quote-left"></i>
+
+		<?php if(isset($data->products)): ?>
+			<span class="blue"><b><?php echo iStr::title($data->products); ?></b>: </span>
+			<?php if( $data->stocktype === 'create' ): ?>
+					item(s) <span class="blue"><i class="icon-plus bigger-140"></i> created </span>
+			<?php elseif( $data->stocktype === 'update' ): ?>
+					<?php if( $data->stocktype_update === 'quantity' ): ?>
+						<?php if( $data->stocktype_update_quantity === 'add' ): ?>
+							Added: 
+							<?php if( isset($data->stocktype_new) && isset($data->stocktype_old) ): ?>
+							<b class="green"><?php echo $data->stocktype_new; ?> quantity(s)</b> | Before change = <b class=""><?php echo $data->stocktype_old; ?> quantity(s)</b> in stock
+							<?php else: ?>
+								<span class="green"> <?php echo $data->stocktype_update_quantity_count; ?> quantity(s)</span>
+							<?php endif; ?>
+						<?php elseif( $data->stocktype_update_quantity === 'subtract' ): ?>
+							Subtracted:
+							<?php if( isset($data->stocktype_new) && isset($data->stocktype_old) ): ?>
+							<b class="green"><?php echo $data->stocktype_new; ?> quantity(s)</b> | Before change = <b class=""><?php echo $data->stocktype_old; ?> quantity(s)</b> in stock
+							<?php else: ?>
+								<span class="light-red"> <?php echo $data->stocktype_update_quantity_count; ?> quantity(s)</span>
+							<?php endif; ?>
+						<?php else: ?>
+							Set: 
+							<?php if( isset($data->stocktype_new) && isset($data->stocktype_old) ): ?>
+							<b class="green"><?php echo $data->stocktype_new; ?> quantity(s)</b> | Before change = <b class=""><?php echo $data->stocktype_old; ?> quantity(s)</b> in stock
+							<?php else: ?>
+								<span class="purple"> <?php echo $data->stocktype_update_quantity_count; ?> quantity(s) </span>
+							<?php endif; ?>
+						<?php endif; ?>
+					<?php elseif( $data->stocktype_update === 'name' || $data->stocktype_update === 'barcodeid'): ?>
+					Item <?php echo ucfirst($data->stocktype_update); ?> changed from 
+						<span class="purple">
+							<b><?php echo ucfirst($data->stocktype_update_oldname); ?></b>
+						</span> to 
+						<span class="blue">
+							<b><?php echo ucfirst($data->stocktype_update_newname); ?></b>
+						</span>
+					<?php elseif( $data->stocktype_update === 'almost_finished' ): ?>
+							<?php /*tt($data)*/ ?>
+							Quantity Warning was set to 
+						<b><?php echo $data->stocktype_new; ?> quantity(s)</b> | Before change = <b class=""><?php echo $data->stocktype_old; ?> quantity(s)</b>
+					<?php endif; ?>
+			<?php elseif($data->stocktype === 'delete'  ): ?>
+				<?php if( isset($data->stock_items) ): ?>
+					<b class='orange'><?php echo ucfirst($data->stock_items); ?> </b>
+				<?php endif; ?>
+					item(s) <span class="red"><i class="icon-trash bigger-140"></i> deleted!</span>
+			<?php elseif($data->stocktype === 'status'): ?>
+				<?php if($data->products_status == 1): ?>
+					item(s) <span class="green"><i class="icon-ok-sign bigger-140"></i> published!</span> 
+				
+				<?php else: ?>
+					item(s) <span class="red"><i class="icon-minus-sign bigger-140"></i> unpublished!</span> 
+					
+				<?php endif; ?>
+			<?php elseif($data->stocktype === 'unitprice' ): ?>
+					<?php echo istr::title($data->stocktype_unitprice_mode); ?> is 
+					<span class="label label-large label-inverse arrowed">
+						<b><?php echo $data->amount; ?></b>
+					</span> 
+						<?php if( isset($data->old_amount) ): ?>
+						| Before change = <b> <?php echo $data->old_amount; ?> </b> 
+						<?php endif; ?>
+			<?php elseif( $data->stocktype === 'discount' ): ?>
+					<?php if(isset($data->product_name)): ?>
+						<b class='orange'><?php echo ucfirst($data->product_name); ?></b> <?php echo ucfirst($data->stocktype_unitprice_mode); ?> is 
+						<span class="label label-large label-yellow arrowed-in">
+							<b><?php echo $data->new_discount; ?> <?php echo $data->new_price; ?></b>
+						</span> 
+							| Before change = <b><?php echo $data->old_discount; ?> <?php echo $data->old_price; ?></b>
+					<?php else: ?>
+						<?php echo istr::title($data->stocktype_unitprice_mode); ?> is 
+						<span class="label label-large label-yellow arrowed-in">
+							<b><?php echo $data->amount; ?> N100.00k</b>
+						</span> 
+					<?php endif; ?>
+			<?php elseif( $data->stocktype === 'costprice' ): ?>
+					Cost price is 
+					<span class="label label-large label-important arrowed">
+						<b><?php echo $data->amount; ?></b>
+					</span> 
+					<?php if( isset($data->old_amount) ): ?>
+					| Before change = <b> <?php echo $data->old_amount; ?> </b> 
+					<?php endif; ?>
+			<?php endif; ?>
+
+			<?php elseif(isset($data->categories)): ?>
+				<span class="blue"><?php echo iStr::title($data->categories); ?>:</span>
+			<?php elseif(isset($data->brand)): ?>
+				<span class="blue"><?php echo iStr::title($data->brand); ?>:</span>
+		<?php endif; ?>
+
+	</div>
+
+<?php endif; ?>

@@ -1,0 +1,223 @@
+<?php $__env->startSection('sidebar'); ?>
+<div class="red logoarea">
+	<a href=<?php echo URL::route('adminShowCategory', array(slug($brand->name))); ?>><?php echo imging($brand['brandlogo']); ?></a>
+</div>
+
+
+<li>
+	<a href="#myModal" modal-url-add-product-category=<?php echo URL::route( 'adminAddCategory', array($brand->id,'addproductcategory') ); ?> title="Add product category">
+		<i class="icon-plus bigger-230 blue"></i>
+		<span class="menu-text">Add product category</span>
+	</a>
+</li>
+
+<li>
+	<a href="#myModal" modal-url-add-service-category=<?php echo URL::route( 'adminAddCategory', array($brand->id, 'addservicecategory') ); ?> title="Add service category">
+		<i class="icon-plus bigger-230 orange"></i>
+		<span class="menu-text">Add service category</span>
+	</a>
+</li>
+
+<li>
+	<a href="#" multiple-checkbox>
+		<i class="icon-ok bigger-230 green"></i>
+		<span class="menu-text">Check all categories</span>
+	</a href="#">
+</li>
+
+<li>
+	<a class="multiple_delete" href="#">
+		<i class="icon-trash bigger-160 red"></i>
+		<span class="menu-text">Delete selected items</span>
+	</a>
+</li>
+
+<li>
+	<a href="../stock">
+		<i class="icon-arrow-left bigger-160 orange"></i>
+		<span class="menu-text">One step back</span>
+	</a>
+</li>
+<?php $__env->stopSection(); ?>
+
+
+<div class="alert  alert-info" style="margin-bottom:5px">
+	<i class="icon-list bigger-130"></i>
+	<h4 style="display:inline-block" class="small">
+		CATEGORY
+		<small class="blue">
+			<strong>
+			<i class="icon-double-angle-right"></i>
+			<?php echo e(ucwords($brand->name)); ?>
+
+			</strong>
+		</small>
+	</h4>
+</div>
+<div class="categories-container">
+<?php if( !empty($category) ): ?>
+<?php $counter=0 ?>
+
+	<?php foreach( $category as $cat ): ?>
+		
+		<?php if($counter == 0): ?> <div class="row-fluid"> <?php endif; ?>
+
+		<?php if($counter <= 4): ?>
+			<div class="span3 widget-container-span deletethis">
+				<div class="widget-box light-border">
+					<div class="">
+						<h3 class="smaller <?php if($cat['type'] == 'service'): ?> blue <?php else: ?> green <?php endif; ?>" style="margin:0">
+							<span class="editable-view" editable-view-id="<?php echo $cat['id']; ?>">
+								<a href=<?php echo URL::route('adminShowProduct', array(slug($brand->name), slug($cat['name'])) ); ?> class="nolinkdecoration"><?php echo e(ucfirst($cat['name'])); ?></a>
+							</span>
+						</h3>
+					</div>
+
+					<div class="widget-header widget-header-small header-color-dark">
+						<h5></h5>
+						<div class="widget-toolbar">
+							<a href="#" class="togglepublished" status-id=<?php echo $cat['id']; ?> status-url=<?php echo URL::route('categoryStatus'); ?>> 
+								<i class="<?php if($cat['published'] == 1): ?> green icon-ok-sign <?php else: ?> red icon-minus-sign <?php endif; ?> bigger-130"></i>
+							</a> 
+						</div>
+
+						<div class="widget-toolbar">
+							<a href="#" class="editable-controller"><i class="icon-pencil orange bigger-130"></i></a>
+							<a class="editable-model" data-pk="<?php echo $cat['id']; ?>" data-title="Update category name"></a>
+						</div>
+
+						<div class="widget-toolbar">
+							<a href="#" class="styledcheckbox action-buttons" checkbox-value="<?php echo $cat['id']; ?>"></a>
+						</div>
+					</div>
+
+				<a href=<?php echo URL::route('adminShowProduct', array(slug($brand->name), slug($cat['name'])) ); ?> class="category-link-container">
+					<div class="widget-body">
+						<div class="widget-main padding-6">
+<?php if($cat['type'] == 'service'): ?> <i class="icon-star light-blue"></i> <?php endif; ?>
+PRODUCTS:  <span class="red bolder"><?php echo e(Productcategory::countProducts($cat['id'])); ?></span>
+						</div>
+					</div>
+				</a>
+				</div>
+			</div>
+			<?php $counter++; ?>
+		<?php endif; ?>
+
+		<?php if($counter >= 4): ?>
+			<?php $counter = 0; ?>
+		<?php endif; ?>
+
+		<?php if($counter == 0): ?> </div> <?php endif; ?>
+
+	<?php endforeach; ?>
+<?php endif; ?>
+</div>
+
+
+<script>
+$(document).ready(function(){
+
+//Toggles status for products
+		$('.togglepublished').toggleStatus();
+
+/*********** EDITABLE STARTS HERE  *********/
+		var editable_id, that;
+
+		$('.editable-controller').on('click', function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			editable_id = $(this).closest('.widget-header').find('.editable-model').attr('data-pk');
+			that = '[data-pk="'+  editable_id +'"]';
+			$(that).editable({
+				display:function(value){
+					if( $.trim(value) !== '' ){
+						var pplink = "<?php echo Request::url(); ?>/" + value.toLowerCase().replace(/[ \t\r]+/g, "+");
+						$('.category-link-container').prop('href', pplink);
+
+						$('[editable-view-id="'+editable_id+'"] > a')
+						.prop('href', pplink)
+						.text(value.replace(/[ \t\r]+/g, " "));
+					}
+				},
+				emptytext:'',
+				type: 'text',
+				url: "<?php echo URL::route('updatecategory'); ?>",
+				name:'name',
+				placement:'bottom'
+			});
+
+			$(that).editable('toggle');
+		});
+/*********** EDITABLE ENDS HERE  *********/
+
+	$('.styledcheckbox').styledCheckbox({
+		iconSize: 'bigger-120',
+		iconcheck: 'icon-check-empty',
+		iconchecked: 'icon-check-sign',
+		name:'checkbox',
+		checkedClass: 'white-text',
+	});
+
+	$('.multiple_delete').deleteItemx({
+			url: "<?php echo URL::route('deletecategory'); ?>",
+			afterDelete:checkStockAlertAfterPayment,
+			afterDelete_args:"<?php echo URL::route('outofstockwarning_count'); ?>",
+			ajaxRefresh: true,
+		});
+
+	//calling modalbox for adding product category
+	var addProductCategory = function (e){
+		var $that = $(this), url = $(this).attr('modal-url-add-product-category');
+
+		$that.off('click.addProductCategory', addProductCategory);
+
+		$.get(url, function(data) {
+
+			var modalClone = cloneModalbox($('#myModal'));
+
+			modalClone
+			.modal()
+			.css({'width':'600px', 'margin-top':'-20px'})
+			.find('.modal-body')
+			.html(data)
+			.css({'max-height':'400px', 'overflow':'auto'})
+				.end()
+			.find('.modal-header h3')
+			.html('Add product categories');
+
+			$that.on('click.addProductCategory', addProductCategory);
+		});
+	}
+
+	$("a[modal-url-add-product-category]").on('click.addProductCategory', addProductCategory);
+
+
+	//calling modalbox for adding service category
+	var addServiceCategory = function (e){
+		var $that = $(this), url = $(this).attr('modal-url-add-service-category');
+
+		$that.off('click.addServiceCategory', addServiceCategory);
+
+		$.get(url, function(data) {
+
+			var modalClone = cloneModalbox($('#myModal'));
+
+			modalClone
+			.modal()
+			.css({'width':'600px', 'margin-top':'-20px'})
+			.find('.modal-body')
+			.html(data)
+			.css({'max-height':'400px', 'overflow':'auto'})
+				.end()
+			.find('.modal-header h3')
+			.html('Add service categories');
+
+			$that.on('click.addServiceCategory', addServiceCategory);
+		});
+	}
+
+	$("a[modal-url-add-service-category]").on('click.addServiceCategory', addServiceCategory);
+
+});
+</script>

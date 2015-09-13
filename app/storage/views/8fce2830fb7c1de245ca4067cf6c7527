@@ -1,0 +1,100 @@
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+
+      <button data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar" type="button">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+        <a href="<?php echo URL::route('home'); ?>" class="brand" style="padding:0; float:right; margin-left:20px;">
+          <?php echo HTML::image('vendor/bucketcodes/img/logo1_small_black.jpg', 'Glamour56_logo', array('width'=>'43')); ?>
+
+        </a>
+       <?php if(Auth::check()): ?>
+        <div class="pull-right">
+            <ul class="nav ace-nav pull-right">
+ <?php echo $__env->make('alerts', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+              <li class="light-blue">
+                <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                  <?php echo HTML::image('uploads/img/profile.png','', array('class'=>'nav-user-photo', 'width'=>'50px')); ?>
+
+                  <span class="user-info" style="color:white">
+                    <small>Welcome,</small>
+                    <?php echo ucwords(Auth::user()->username); ?> 
+                  </span>
+
+                  <i class="icon-caret-down"></i>
+                </a>
+
+                <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
+                  <li>
+                    <a href=<?php echo URL::route('viewchangepassword'); ?>>
+                      <i class="icon-lock"></i>
+                      Change password
+                    </a>
+                  </li>
+
+                  <?php unset($menuSet); $menuSet = MenuClass::getMenuArray('stock manager'); ?>
+                  <?php if( User::permitted( $menuSet['role'] ) ): ?>
+                      <li>
+                        <a href="<?php echo URL::route($menuSet['urlname']); ?>">
+                          <i class="icon-list"></i>
+                          Manage Stock
+                        </a>
+                      </li>
+                  <?php endif; ?>
+
+                  <?php unset($menuSet); $menuSet = MenuClass::getMenuArray('dashboard'); ?>
+                  <?php if( User::permitted( $menuSet['role'] ) ): ?>
+                      <li>
+                        <a href="<?php echo URL::route($menuSet['urlname']); ?>">
+                         <i class="icon-signin"></i> Go to Admin
+                        </a>
+                      </li>
+                  <?php endif; ?>
+
+                  <li class="divider"></li>
+                  <li>
+                    <a href="<?php echo URL::route('logout'); ?>">
+                      <i class="icon-off"></i>
+                      Logout
+                    </a>
+                  </li>
+                </ul>
+              </li><!-- STAFFS DROP DOWN ENDS HERE -->
+              
+            </ul>
+
+        </div>
+
+      <div class="nav-collapse collapse">
+        <ul class="nav" id="frontpageTopmenu">
+          <li><a href=<?php echo URL::route('home'); ?>>Search products / Cart</a></li>
+         <!-- <li><a href=<?php echo URL::route('search'); ?>>Search</a></li>-->
+          <li class="dropdown">
+            <a data-toggle="dropdown" class="dropdown-toggle" href="#">More... <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+               <?php if( User::permitted( 'role.sales manager') ): ?>
+                <li>
+                  <a href=<?php echo URL::route('todaysale'); ?>>Todays sales</a>
+                </li>
+               <?php endif; ?>
+              <li>
+                <a href=<?php echo URL::route('sale_entries'); ?>>Bank entries</a>
+              </li>
+              <li>
+                <a href=<?php echo URL::route('sales.expenditure'); ?>>Expenditures</a>
+              </li>
+            </ul>
+          </li>
+          
+        </ul>
+          <?php /*<?php echo $__env->make('searchbar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>*/ ?>
+      </div><!--/.nav-collapse -->
+    <?php endif; ?>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<div id="searchforexistingcustomer">
+	<div class="row-fluid">
+		<div class="span12">
+
+			{{-- SEARCH CUSTOMERS TOKEN --}}
+				<div class="productsearch-wrapper">
+					<!--<h5 class="header purple"> Search for customer's token here: </h5>-->
+					{{ Form::open(array('route'=>'searchcustomer', 'id'=>'searchcustomerform', 'class'=>'form-horizontal', 'style'=>'position:relative;' )) }}
+						<div class="row-fluid">
+							<div class="span12">
+							<div class="input-append span10">
+								 {{Form::text('gettoken', '', array('id'=>'inputbrandname', 'class'=>'input-block-level', 'id'=>'searchtoken', 'autocomplete'=>'off', 'placeholder'=>'Search by either Phone number or Token-id', 'style'=>'font-size:13px', 'validate'=>'required'))}}
+								 <a class="btn btn-purple" id="search_customer_button" style="width:13.5%">
+								 <i class="icon-search nav-search-icon bigger-120"></i>
+								 </a>
+							</div>
+					{{Form::close()}}
+				</div>
+				<div id="foundTokenAppend" class="error-msg"></div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(document).ready(function(){
+	$('#search_customer_button, #searchtoken').on('keydown click', function(e){
+		//_debug(e.currentTarget.id);
+		if( e.which === 13 || (e.type === 'click' && e.currentTarget.id === 'search_customer_button')){
+			e.preventDefault();
+			$(this).ajaxrequest_wrapper({
+				validate:'inline',
+				afterAjax_callback: manualSetToken
+			});
+		}
+	});
+
+	$(this).on('click', '#use-token-button', function(e){
+		e.preventDefault();
+		var token_id = $(this).find('#token-id').text();
+		var data = {detail:token_id};
+		autoSetToken(data, "{{URL::route('autoSaveCart')}}");
+		$('.myModalCloned').modal('hide');
+	});
+
+});
+
+
+</script>

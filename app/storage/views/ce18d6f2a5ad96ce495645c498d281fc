@@ -1,0 +1,19 @@
+<div class="row-fluid">
+	<div class="span12">
+		<div class="span4 fontpageleft">
+			<?php echo $__env->make('searchproduct', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+			<?php /*<?php echo $__env->make('payment_details', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>*/ ?>
+		</div>
+
+
+		<div class="span8 frontpageright">
+			<?php echo $__env->make('cart', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+		</div>
+	</div>
+</div>
+
+<script>
+$(document).ready(function(){
+	$(this).find('#frontpageTopmenu > li').eq(0).addClass('active');
+});
+</script>

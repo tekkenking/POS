@@ -1,0 +1,53 @@
+<div class="widget-box">
+	<div class="widget-header header-color-grey">
+		<h4 class=""> <i class="icon-money bigger-110"></i> Recent sales </h4>
+
+		<div class="widget-toolbar no-border">
+			<ul id="myTab" class="nav nav-tabs padding-32">
+				<li class="active">
+					<a href="#salesummary_today" data-toggle="tab" class="ajaxable" data-mode="salesummary_today" data-url=<?php echo URL::route('admindashboard'); ?> >
+						<i class="icon-time bigger-120"></i>
+						 Today
+					</a>
+				</li>
+
+				<li class="">
+					<a href="#salesummary_yesterday" data-toggle="tab" class="ajaxable" data-mode="salesummary_yesterday" data-url=<?php echo URL::route('admindashboard'); ?> >
+					<i class="icon-time bigger-120"></i>
+						Yesterday
+					</a>
+				</li>
+
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						More...
+						<b class="caret"></b>
+					</a>
+
+					<ul class="dropdown-menu dropdown-info">
+
+						<li class="">
+							<a href="#salesummary_lastweek" data-toggle="tab" class="ajaxable" data-url=<?php echo URL::route('admindashboard'); ?> data-mode="salesummary_lastweek"><i class="icon-time bigger-120"></i> Last week</a>
+						</li>
+
+						<li class="">
+							<a href="#salesummary_lastmonth" data-toggle="tab" class="ajaxable" data-url=<?php echo URL::route('admindashboard'); ?> data-mode="salesummary_lastmonth"><i class="icon-time bigger-120"></i> Last month</a>
+						</li>
+					</ul>
+				</li>
+
+			</ul>
+
+		</div>
+	</div>
+
+	<div class="widget-body">
+		<div class="widget-main no-padding">
+			<div class="no-padding overflow-visible tab-content">
+				<div class="tab-pane active" id="salesummary_today">
+						<?php echo $__env->make('admin.salesummary', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

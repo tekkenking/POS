@@ -1,0 +1,38 @@
+
+      <li class="nav-header">
+        <i class="icon-warning-sign"></i>
+        <?php if($count == 0): ?> 0 stock alert <?php elseif($count == 1): ?> 1 stock alert <?php else: ?> <?php echo $count; ?> stock alerts <?php endif; ?>
+      </li>
+<?php if( $count > 0 ): ?>
+<?php $displayCounter = 0; $totalToDisplay = 5; $totalRemaining = 0; ?>
+<?php foreach( $products as $product ): ?>
+      <li>
+        <a href="<?php echo $product['linktoproduct']; ?>">
+          <div class="clearfix">
+            <span class="pull-left">
+                <strong><?php echo ucwords($product['name']); ?></strong>
+                <br><small class="muted"><?php if($product['quantity'] > 0): ?> <span class="bolder">Almost out of stock</span> <?php else: ?> <span class="red bolder">Out of stock</span> <?php endif; ?></small>
+            </span>
+            <span class="pull-right">
+              <span class="label label-yellow">
+                <?php echo $product['quantity']; ?>
+
+              </span>
+                <br><small class="muted">In stock</small>
+            </span>
+          </div>
+        </a>
+      </li>
+       <?php ++$displayCounter; if( $displayCounter === $totalToDisplay ){ $totalRemaining = $count - $displayCounter; break; } ?>
+<?php endforeach; ?>
+        <li>
+          <?php if( $totalRemaining > 0 ): ?>
+          <a href="#" modal-data="view_all_stockalert">
+            <span class="bolder">
+             <?php echo $totalRemaining; ?> more. Click to see all <i class="icon-arrow-right"></i>
+            </span>
+          </a>
+           <?php endif; ?>
+        </li>
+     
+<?php endif; ?>

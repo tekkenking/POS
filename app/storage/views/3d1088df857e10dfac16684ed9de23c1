@@ -1,0 +1,34 @@
+<?php if(!empty($customerhistory)): ?>
+	<?php foreach($customerhistory as $groupBy => $v): ?>
+	<tr style="background:#F1FACE" class="bolder">
+	<td><span class="bolder"><i class="icon-time bigger-110 hidden-phone"></i> <?php echo ng_datetime_format2($v[0]['created_at']); ?></span></td>
+	<td colspan="7"><span class="bolder"><a href="#myModal" data-rel='popover' data-url=<?php echo URL::route('popoverReceiptPreview', array($groupBy)); ?>><?php echo Receipt::buildReceipt($groupBy); ?></a></span></td>
+	<td><i class="icon-user bigger-110 hidden-phone"></i> <?php echo User::getUsernameByID($v[0]['user_id'], false); ?></td>
+	</tr>
+		<?php foreach($v as $history): ?>
+			<tr>
+				<td colspan="2"></td>
+				<td><?php echo ucwords($history['product']['name']); ?></td>
+				<td><?php echo currency(); ?><?php echo format_money($history['unitprice']); ?>k</td>
+				<td><?php echo $history['quantity']; ?></td>
+				<td><?php echo $history['discount']; ?>%</td>
+				<td><?php echo currency(); ?><?php echo format_money($history['total_unitprice']); ?>k</td>
+
+					<?php 
+						if( $history['product']['categories']['type'] === 'service' ){
+							$modex = 'Services';
+						}else{
+							$modex = Mode::getModeNameFromID($history['mode_id']);
+						}
+					?>
+
+				<td colspan="2"><?php echo ucwords($modex); ?></td>
+			</tr>
+		<?php endforeach; ?>
+	<?php endforeach; ?>
+
+<?php else: ?>
+	<tr>
+		<td colspan="9" class="center"> <h2 class="lighter small"> NO SALE HISTORY : [ <small class="blue datera"><?php echo display_date_range($fromdate, $todate); ?></small> ]</h2> </td>
+	</tr>
+<?php endif; ?>

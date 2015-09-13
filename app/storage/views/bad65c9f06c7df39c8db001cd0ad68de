@@ -1,0 +1,65 @@
+<?php $__env->startSection('sidebar'); ?>
+
+<?php echo $__env->make('admin.usersplace_sidemenu', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+<?php $__env->stopSection(); ?>
+
+<div class="widget-box no-border">
+	<div class="widget-header">
+		<h4> <i class="red icon-rss bigger-140"></i> STAFF AREA </h4>
+
+		<div class="widget-toolbar no-border">
+			<ul id="myTab" class="nav nav-tabs">
+				<li class="active">
+					<a href="#listofstaffs" data-toggle="tab" class="ajaxable" data-mode="listofstaffs" data-url=<?php echo URL::route('adminliststaffs'); ?> >
+						<i class="green icon-reorder bigger-120"></i>
+						 LIST OF STAFFS:
+					</a>
+				</li>
+
+				<li class="">
+					<a href="#createnewstaff" data-toggle="tab" class="ajaxable" data-mode="createnewstaff" data-url=<?php echo URL::route('adminshowstaffform'); ?> >
+					<i class="orange icon-pencil bigger-120"></i>
+						REGISTER NEW STAFF:
+					</a>
+				</li>
+			</ul>
+
+		</div>
+	</div>
+
+	<div class="widget-body">
+		<div class="no-padding widget-main">
+			<div class="no-padding overflow-visible tab-content">
+				<div class="tab-pane active" id="listofstaffs">
+						<?php echo $__env->make('admin.liststaffs', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+<script>
+
+$(document).ready(function(){
+	$('form').iePlaceholder();
+
+	$('.ajaxable').ajaxLoadTabContent({
+		extraParamsCallback: "getTarget(that)",
+		loader: '<span style="text-align:center"><i class="icon-spinner icon-spin"></i> Loading...</span>',
+		loaderTargetPlace: '.loadertargetplace',
+	});
+
+	//Would add active feature to side menu
+	$(this).find('#admin_sidemenu_staffmenu').addClass('active');
+});
+
+function getTarget(that){
+	targetDiv = that.attr('data-mode');
+	$('.tab-content > div').attr('id', targetDiv);
+	return targetDiv;
+}
+
+</script>
