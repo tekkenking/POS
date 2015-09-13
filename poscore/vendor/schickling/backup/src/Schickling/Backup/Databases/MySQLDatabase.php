@@ -60,7 +60,6 @@ class MySQLDatabase implements DatabaseInterface
 
 	protected function getDumpCommandPath()
 	{
-		//tt(Config::get('backup::mysql.dump_command_path'));
 		return Config::get('backup::mysql.dump_command_path');;
 	}
 

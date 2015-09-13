@@ -209,9 +209,11 @@
 								alerttype = (data.alerttype === undefined) ? data.status : data.alerttype;
 								statusMessage();
 
-								setInterval(function(){
+								//setInterval(function(){
+									//_debug(data.url);
+									//return false;
 									window.location.replace(data.url);
-								}, parseInt(o.redirectDelay));
+								//}, parseInt(o.redirectDelay));
 							}
 
 						}else if( data.status !== undefined ){

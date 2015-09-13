@@ -277,7 +277,7 @@ class TraceableEventDispatcher implements EventDispatcherInterface, TraceableEve
         if ($listener instanceof \Closure) {
             $info += array(
                 'type' => 'Closure',
-                'pretty' => 'closure'
+                'pretty' => 'closure',
             );
         } elseif (is_string($listener)) {
             try {
@@ -289,10 +289,10 @@ class TraceableEventDispatcher implements EventDispatcherInterface, TraceableEve
                 $line = null;
             }
             $info += array(
-                'type'  => 'Function',
+                'type' => 'Function',
                 'function' => $listener,
-                'file'  => $file,
-                'line'  => $line,
+                'file' => $file,
+                'line' => $line,
                 'pretty' => $listener,
             );
         } elseif (is_array($listener) || (is_object($listener) && is_callable($listener))) {
@@ -309,11 +309,11 @@ class TraceableEventDispatcher implements EventDispatcherInterface, TraceableEve
                 $line = null;
             }
             $info += array(
-                'type'  => 'Method',
+                'type' => 'Method',
                 'class' => $class,
                 'method' => $listener[1],
-                'file'  => $file,
-                'line'  => $line,
+                'file' => $file,
+                'line' => $line,
                 'pretty' => $class.'::'.$listener[1],
             );
         }
@@ -406,7 +406,8 @@ class TraceableEventDispatcher implements EventDispatcherInterface, TraceableEve
                 // which must be caught.
                 try {
                     $this->stopwatch->openSection($token);
-                } catch (\LogicException $e) {}
+                } catch (\LogicException $e) {
+                }
                 break;
         }
     }
@@ -432,7 +433,8 @@ class TraceableEventDispatcher implements EventDispatcherInterface, TraceableEve
                 // does not exist, then closing it throws an exception which must be caught.
                 try {
                     $this->stopwatch->stopSection($token);
-                } catch (\LogicException $e) {}
+                } catch (\LogicException $e) {
+                }
                 // The children profiles have been updated by the previous 'kernel.response'
                 // event. Only the root profile need to be updated with the 'kernel.terminate'
                 // timing information.

@@ -129,7 +129,7 @@ return array(
 		'Way\Generators\GeneratorsServiceProvider',
 		'libraries\libServiceProvider',
 		'Schickling\Backup\BackupServiceProvider',
-		//'Sebklaus\Profiler\Providers\ProfilerServiceProvider',
+		'Sebklaus\Profiler\Providers\ProfilerServiceProvider',
 
 	),
 

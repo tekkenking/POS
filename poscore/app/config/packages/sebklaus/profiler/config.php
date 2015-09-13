@@ -3,7 +3,7 @@
 return array(
 
 	// Set to TRUE to enable profiling, FALSE to disable. NULL to listen to the app.debug value (default)
-	'profiler' => false,
+	'profiler' => true,
 	
 	// Set to TRUE to activate URL based Profiler enabling/ disabling (add /_profiler to the root url to activate the toggle mechanism, e.g. http://localhost/_profiler)
 	'urlToggle' => FALSE,

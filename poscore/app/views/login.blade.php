@@ -51,12 +51,14 @@ $(document).ready(function(){
 		});
 	});
 
+	<?php $assets_dir = "uploads/bg_slider"; ?>
+
 	$.vegas('slideshow', {
 	  backgrounds:[
-	    { src:'/pos/bg_slider/golden_flower.jpg', fade:1500 },
-	    { src:'/pos/bg_slider/golden_egg.jpg', fade:1500 },
-	    { src:'/pos/bg_slider/bright_flower.jpg', fade:1500 },
-	    { src:'/pos/bg_slider/brooklyn_bridge.jpg', fade:1500 }
+	    { src:'{{asset("$assets_dir/golden_flower.jpg")}}', fade:1500 },
+	    { src:'{{asset("$assets_dir/golden_egg.jpg")}}', fade:1500 },
+	    { src:'{{asset("$assets_dir/bright_flower.jpg")}}', fade:1500 },
+	    { src:'{{asset("$assets_dir/brooklyn_bridge.jpg")}}', fade:1500 }
 	  ]
 	})('overlay');
 

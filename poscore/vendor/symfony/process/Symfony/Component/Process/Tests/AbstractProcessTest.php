@@ -77,9 +77,8 @@ abstract class AbstractProcessTest extends \PHPUnit_Framework_TestCase
         while ($p->isRunning()) {
             usleep(1000);
         }
-        $duration = microtime(true) - $start;
 
-        $this->assertLessThan(1.8, $duration);
+        $this->assertLessThan(4, microtime(true) - $start);
     }
 
     public function testAllOutputIsActuallyReadOnTermination()
@@ -146,7 +145,7 @@ abstract class AbstractProcessTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcessPipes($code, $size)
     {
-        $expected = str_repeat(str_repeat('*', 1024), $size) . '!';
+        $expected = str_repeat(str_repeat('*', 1024), $size).'!';
         $expectedLength = (1024 * $size) + 1;
 
         $p = $this->getProcess(sprintf('php -r %s', escapeshellarg($code)));
@@ -216,7 +215,7 @@ abstract class AbstractProcessTest extends \PHPUnit_Framework_TestCase
     {
         if (defined('PHP_WINDOWS_VERSION_BUILD')) {
             return array(
-                array("2 \r\n2\r\n", '&&', '2')
+                array("2 \r\n2\r\n", '&&', '2'),
             );
         }
 
@@ -396,7 +395,7 @@ abstract class AbstractProcessTest extends \PHPUnit_Framework_TestCase
         $start = microtime(true);
         $process->start();
         $end = microtime(true);
-        $this->assertLessThan(0.2, $end-$start);
+        $this->assertLessThan(1, $end - $start);
         $process->wait();
     }
 
@@ -592,7 +591,7 @@ abstract class AbstractProcessTest extends \PHPUnit_Framework_TestCase
 
     public function testPhpDeadlock()
     {
-        $this->markTestSkipped('Can course PHP to hang');
+        $this->markTestSkipped('Can cause PHP to hang');
 
         // Sleep doesn't work as it will allow the process to handle signals and close
         // file handles from the other end.
@@ -612,7 +611,6 @@ abstract class AbstractProcessTest extends \PHPUnit_Framework_TestCase
             $process->run();
             $this->fail('A RuntimeException should have been raised');
         } catch (RuntimeException $e) {
-
         }
         $duration = microtime(true) - $start;
 
@@ -656,7 +654,6 @@ abstract class AbstractProcessTest extends \PHPUnit_Framework_TestCase
             }
             $this->fail('A RuntimeException should have been raised');
         } catch (RuntimeException $e) {
-
         }
         $duration = microtime(true) - $start;
 
@@ -672,7 +669,6 @@ abstract class AbstractProcessTest extends \PHPUnit_Framework_TestCase
             $process->run();
             $this->fail('An exception should have been raised.');
         } catch (\Exception $e) {
-
         }
         $process->start();
         usleep(10000);
@@ -704,12 +700,12 @@ abstract class AbstractProcessTest extends \PHPUnit_Framework_TestCase
     {
         $this->verifyPosixIsEnabled();
 
-        $process = $this->getProcess('exec php -f ' . __DIR__ . '/SignalListener.php');
+        $process = $this->getProcess('exec php -f '.__DIR__.'/SignalListener.php');
         $process->start();
         usleep(500000);
         $process->signal(SIGUSR1);
 
-        while ($process->isRunning() && false === strpos($process->getoutput(), 'Caught SIGUSR1')) {
+        while ($process->isRunning() && false === strpos($process->getOutput(), 'Caught SIGUSR1')) {
             usleep(10000);
         }
 
@@ -876,7 +872,7 @@ abstract class AbstractProcessTest extends \PHPUnit_Framework_TestCase
             array('WorkingDirectory'),
             array('Env'),
             array('Stdin'),
-            array('Options')
+            array('Options'),
         );
 
         return $defaults;

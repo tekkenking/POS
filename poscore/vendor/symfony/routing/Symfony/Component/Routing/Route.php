@@ -95,22 +95,29 @@ class Route implements \Serializable
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function serialize()
     {
         return serialize(array(
-            'path'         => $this->path,
-            'host'         => $this->host,
-            'defaults'     => $this->defaults,
+            'path' => $this->path,
+            'host' => $this->host,
+            'defaults' => $this->defaults,
             'requirements' => $this->requirements,
-            'options'      => $this->options,
-            'schemes'      => $this->schemes,
-            'methods'      => $this->methods,
+            'options' => $this->options,
+            'schemes' => $this->schemes,
+            'methods' => $this->methods,
+            'compiled' => $this->compiled,
         ));
     }
 
-    public function unserialize($data)
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($serialized)
     {
-        $data = unserialize($data);
+        $data = unserialize($serialized);
         $this->path = $data['path'];
         $this->host = $data['host'];
         $this->defaults = $data['defaults'];
@@ -118,6 +125,9 @@ class Route implements \Serializable
         $this->options = $data['options'];
         $this->schemes = $data['schemes'];
         $this->methods = $data['methods'];
+        if (isset($data['compiled'])) {
+            $this->compiled = $data['compiled'];
+        }
     }
 
     /**

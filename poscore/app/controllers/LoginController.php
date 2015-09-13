@@ -58,6 +58,9 @@ class LoginController extends \NonSecureBaseController {
 		}
 
 		if( $this->AuthLogin($user) === FALSE ){
+
+			tt('danger not');
+
 			$data['status'] = 'danger';
 			$data['message'] = 'User does not exists..';
 			return Response::json($data);

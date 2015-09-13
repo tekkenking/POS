@@ -5,7 +5,6 @@
 	"require": {
 		"laravel/framework": "4.0.*",
 		"way/generators": "1.1",
-        "twitter/bootstrap": "v2.3.2",
 		"sebklaus/profiler" : "dev-master",
 		"schickling/backup": "dev-master"
 	},
